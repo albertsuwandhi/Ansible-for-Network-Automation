@@ -1,0 +1,6 @@
+#jinja2: trim_blocks:False
+snmp-server location {{item.snmp_location}} 
+{% for vlan in item.vlans %}
+  vlan {{ vlan.id }}
+  name {{ vlan.name}}
+{% endfor %}

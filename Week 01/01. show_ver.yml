@@ -1,0 +1,15 @@
+---
+- name: Ansible 01 - Show Version of Cisco Devices
+  hosts: routers
+  gather_facts: false
+
+  tasks: 
+  - name: run command - show version
+    ios_command:
+      commands: show version | inc Version
+    register: output
+  - name: print result
+    debug:
+      var: output.stdout_lines
+
+

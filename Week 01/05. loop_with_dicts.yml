@@ -1,0 +1,31 @@
+---
+- name: Loops (with dict)
+  hosts: localhost
+  connection: local
+  vars:
+    my_devices:
+      nsw01:
+        ip_addr: 10.10.10.1
+        device_type: cisco_ios
+      nsw02:
+         ip_addr: 10.10.10.2
+         device_type: cisco_ios
+      nfw01:
+        ip_addr: 10.10.10.3
+        device_type: cisco_asa
+
+  tasks:
+    - name: Test1 with_dict (for items in dict)
+      debug:
+      msg: "{{ item }}"
+      with_dict: "{{ my_devices }}"
+    - name: Test2 with_dict (for item.keys in dict)
+      debug:
+        msg: "{{ item.value.ip_addr }}"
+      with_dict: "{{ my_devices }}"
+      when: "'cisco_asa' in item.value.device_type"
+    - name: Test with_dict (for item.values in dict)
+      debug:
+        msg: "{{ item.key }}"
+      with_dict: "{{ my_devices }}"
+      when: item.value.ip_addr != '10.10.10.3'

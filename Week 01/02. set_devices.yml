@@ -1,0 +1,32 @@
+---
+- name: Ansible 02 - Set NTP Server and Add Users
+  hosts: routers
+  gather_facts: false
+
+  tasks: 
+  - name: configure ntp server
+    ios_config:
+      lines:
+        - ntp server 1.1.1.1
+        - ntp server 2.2.2.2
+    notify: save config
+  - name: configure domain name
+    ios_config:
+      lines:
+        - ip domain-name cisco.com
+    notify: save config
+  - name: add user - user1
+    ios_config:
+      lines:
+        - username user1 privilege 15 secret user1
+    notify: save config
+  handlers:
+  - name: save config
+    ios_command:
+      commands: wr mem
+
+
+
+      
+
+

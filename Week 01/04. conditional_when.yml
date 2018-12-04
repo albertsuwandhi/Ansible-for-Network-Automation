@@ -1,0 +1,40 @@
+---
+- name: Show IP Interface Brief
+  hosts: Routers
+  connection: network_cli
+  vars:
+    print_this: 'True'
+    version: "Cisco IOS running version 15.2"
+  tasks:
+    - name: Gather IOS Facts
+      ios_facts:
+      register: IOS_facts
+      tags: facts-only
+
+    - name : Show Facts
+      debug:
+        message: ansible_net_model
+      tags: facts-only
+
+    - name: Show IP Interface Brief 
+      ios_command:
+        commands: show ip int brief
+      register: output
+
+    - name: Show Output
+      debug:
+        #var: output
+        msg: "{{ output['stdout_lines'] }}" 
+        #msg: "{{ output.stdout_lines[0][1:6] }}"
+    - name: print_this == 'True'
+      debug:
+         msg: Print This Message
+      when: print_this == 'True'
+    - name: Printed when IOS version is 15.2
+      debug:
+         msg: IOS Version 15.2
+      when: "'15.2' in version"
+    - name: Check Whether Version is Defined
+      debug:
+         msg: IOS Version 15.2 is defined
+      when: version is defined

@@ -1,0 +1,29 @@
+---
+- name: Using handlers
+  hosts: nxos
+  tasks:
+    - name: Configure Nexus VLANs
+      nxos_vlan:
+        provider: "{{ provider_nxapi }}"
+        vlan_id: "{{ item.vlan_id }}"
+        admin_state: "{{ item.admin_state }}"
+        name: "{{ item.name }}"
+      with_items: "{{ vlans }}"
+      notify: write mem
+
+  # use vars from host_vars : ip_addresses.yml
+    - name: Configure Nexus IP
+      nxos_ip_interface:
+        provider: "{{ provider_nxapi }}"
+        interface: Ethernet2/1
+        version: v4
+        addr: "{{ ip_addr }}"
+        mask: 24
+      notify: write mem
+
+  handlers:
+    - name: write mem
+      nxos_command:
+        provider: "{{ provider_ssh}}"
+        commands: copy run start
+      tags: wr_mem

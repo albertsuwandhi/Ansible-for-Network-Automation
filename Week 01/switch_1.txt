@@ -1,0 +1,7 @@
+snmp-server location Rack1 
+
+  vlan 10
+  name IT
+
+  vlan 20
+  name HR

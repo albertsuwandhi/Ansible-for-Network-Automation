@@ -1,0 +1,16 @@
+---
+access_switches:
+  - hostname: switch_1
+    snmp_location: Rack1
+    vlans: 
+      - id: 10
+        name: IT
+      - id: 20
+        name: HR
+  - hostname: switch_2
+    snmp_location: Rack2
+    vlans: 
+      - id: 20
+        name: HR
+      - id: 30
+        name: SALES

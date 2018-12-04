@@ -1,0 +1,9 @@
+R2 | FAILED! => {
+    "msg": "paramiko: The authenticity of host '192.168.160.182' can't be established.\nThe ssh-rsa key fingerprint is b'30115b49a0cf4a1568c2cd22931b1b18'."
+}
+
+Solution : 
+1. Set ansible.cfg
+   [default]
+   host_key_checking = False
+2. export ANSIBLE_HOST_KEY_CHECKING=FALSE

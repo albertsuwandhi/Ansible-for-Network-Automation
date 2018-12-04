@@ -1,0 +1,29 @@
+---
+provider_ssh:
+  host: "{{ ansible_host }}"
+  username: "{{ username }}"
+  password: "{{ password }}"
+  transport: cli
+provider_nxapi:
+  host: "{{ ansible_host }}"
+  username: "{{ username }}"
+  password: "{{ password }}"
+  transport: nxapi
+  use_ssl: yes
+  validate_certs: no
+  port: 8443
+
+vlans_commons:
+  - vlan_id: 100
+    admin_state: up
+    name: IT
+  - vlan_id: 200
+    admin_state: up
+    name: SALES
+  - vlan_id: 300
+    admin_state: up
+    name: HR
+  
+vlans: "{{ vlans_common }} + {{ vlans_unique }} "
+
+#remove the vars from playbook

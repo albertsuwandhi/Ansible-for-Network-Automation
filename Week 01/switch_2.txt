@@ -1,0 +1,7 @@
+snmp-server location Rack2 
+
+  vlan 20
+  name HR
+
+  vlan 30
+  name SALES

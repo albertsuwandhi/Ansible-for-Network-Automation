@@ -1,0 +1,21 @@
+#Use the group_vars
+---
+- name: nxos_facts module
+  hosts: nxos
+  # Common VLAN can also be moved to group_vars 
+  # Specific VLAN --> host_vars
+  tasks:
+    - name: Configure Nexus VLANs
+      nxos_vlan:
+        provider: "{{provider_nxapi}}"
+        vlan_id: "{{ item.vlan_id }}"
+        admin_state: "{{ item.admin_state }}"
+        name: "{{ item.name }}"
+      with_items: "{{ vlans }}"
+    - name: Saving running conf for changed targets
+      nxos_command:
+        provider: "{{ provider_ssh}}"
+        commands: copy run start
+      changed_when: True
+      tags: wr_mem
+# each NXOS1 and NXOS2 will get common_vlans plus specific vlan

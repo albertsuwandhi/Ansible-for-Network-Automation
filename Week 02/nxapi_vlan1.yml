@@ -1,0 +1,31 @@
+- name: nxos_facts module
+  hosts: nxos
+  vars:
+    ssh:
+      host: "{{ ansible_host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      transport: cli
+    nxapi:
+      host: "{{ ansible_host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      transport: nxapi
+      use_ssl: yes
+      validate_certs: no
+      port: 8443
+
+  tasks:
+    - name: nxos_facts SSH
+      nxos_facts:
+        provider: "{{ ssh }}"
+
+    - name: nxos_facts nxapi
+      nxos_facts:
+        provider: "{{ nxapi }}"
+    - name: Configure Nexus VLANs
+      nxos_vlan:
+        provider: "{{ nxapi }}"
+        vlan_id: 100
+        admin_state: up
+        name: IT

@@ -1,0 +1,18 @@
+---
+# ansible-playbook template_example.yml --connection=local
+- name: Ansible
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks: 
+  - name: include vars
+    include_vars: file='switches.yml'
+
+  - name: generate config
+    template: 
+      src: switches.j2 
+      dest: "{{item.hostname}}.txt"
+    with_items: "{{access_switches}}"
+
+
